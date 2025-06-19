@@ -9,20 +9,32 @@ const { cryptolist = [], setSearchTerm } = useContext(CryptoContext);
 
 const searchHandler = (event) => {
   event.preventDefault();
+  // Clears any visible search suggestions after a search is performed.
   setFilteredCoins([]);
+
+  // Updates the global searchTerm in the CryptoContext with the current value of the input field. This will likely trigger a re-render in other components that are listening to searchTerm, causing them to filter their data.
   setSearchTerm(input);
 };
             const inputHandler = (event) => {
+              // This function is called every time the user types into the search input field.
+
   const value = event.target.value;
+
+  // Updates the input state, which in turn updates the displayed value in the input field.
   setInput(value);
 
+  // If the input field is empty, it clears the global search term (setSearchTerm("")) and hides any previous search suggestions
   if (value === "") {
     setSearchTerm("");
     setFilteredCoins([]);
   } else {
+    //  It filters the cryptolist (all cryptocurrencies) to find coins whose names include the typed value (case-insensitively).
     const suggestions = cryptolist.filter((coin) =>
       coin.name.toLowerCase().includes(value.toLowerCase())
     );
+    // It takes only the first 5 matching suggestions to keep the dropdown concise.
+
+    // Updates the filteredCoins state, which will then render the suggestion list.
     setFilteredCoins(suggestions.slice(0, 5));
   }
 };

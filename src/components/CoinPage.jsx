@@ -21,6 +21,8 @@ const [chartData, setChartData] = useState(null);
 const [period, setPeriod] = useState('10');
 const [error, setError] = useState(null);
 
+
+// This line accesses the currentCurrency object from the CryptoContext. This object likely contains the name and symbol of the currently selected currency (e.g., { name: "usd", symbol: "$" }).
 const { currentCurrency }  = useContext(CryptoContext);
 
 if (!cryptoId) {
