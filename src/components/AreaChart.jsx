@@ -27,6 +27,7 @@ Adds headers to the top of the array.
         new Date(item[0]),
         item[1]
       ]);
+      // This updates the chart's data state.
       setData([['Date', 'Price'], ...formattedData]);
     }
   }, [historicalData]);
