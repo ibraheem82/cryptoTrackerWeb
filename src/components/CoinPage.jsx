@@ -15,14 +15,23 @@ import { ArrowDown, ArrowUp } from 'lucide-react';
  *  ---------------------------------------------------------------- */
 
 const CoinPage = () => {
+  // Uses useParams() to get the cryptoId from the URL
     const {cryptoId} = useParams();
  const [coinDetails, setCoinDetails] = useState(null);
+//  chartData - stores price chart data
 const [chartData, setChartData] = useState(null);
+// period - tracks the selected time period for the chart (default: 10 days)
 const [period, setPeriod] = useState('10');
+// error - tracks any API errors
+
+
 const [error, setError] = useState(null);
 
 
 // This line accesses the currentCurrency object from the CryptoContext. This object likely contains the name and symbol of the currently selected currency (e.g., { name: "usd", symbol: "$" }).
+// Accesses currentCurrency from CryptoContext to display prices in the selected currency
+
+
 const { currentCurrency }  = useContext(CryptoContext);
 
 if (!cryptoId) {
@@ -61,6 +70,15 @@ const requestOptions = {
   }
 }
 
+/*
+Data Visualization:
+
+Includes an AreaChart component to display price history
+
+Period can be changed via a dropdown (24H, 7D, 30D, etc.)
+
+*/
+
 fetchData();
 }, [currentCurrency, cryptoId, period]);
 
@@ -72,23 +90,13 @@ fetchData();
             );
 
 
-if (!coinDetails || !chartData) 
-                return (
+if (!coinDetails || !chartData) {
+  return (
                     <div className='min-h-screen flex items-center justify-center bg-gray-900'>
                     <div className='animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500'></div>
                     </div>
-                );
-
-
-
-
-
-
-
-
-
-
-
+                )
+              }
 return (
    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-900/95 to-gray-900/90 text-white px-4 sm:px-[5%] md:px-[8%] py-6">
 
@@ -138,7 +146,11 @@ return (
             <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-600/20 to-cyan-500/20 rounded-lg blur opacity-30 group-hover:opacity-50 transition duration-300 -z-10" />
           </div>
         </div>
+{/* Data Visualization:
 
+Includes an AreaChart component to display price history
+
+Period can be changed via a dropdown (24H, 7D, 30D, etc.) */}
         <div className="h-64 md:h-80">
           <AreaChart
             historicalData={chartData}

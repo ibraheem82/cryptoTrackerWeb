@@ -1,9 +1,26 @@
 import { useEffect, useState } from 'react'
 import Chart from 'react-google-charts'
 
+// currencySymbol: e.g. $, ₦, €, etc., used in the y-axis.
+
 const AreaChart = ({ historicalData, currencySymbol }) => {
+  // Initializes chart data with just the header row.
+
+// Chart expects 2 columns: Date and Price.
   const [data, setData] = useState([["Date", "Prices"]]);
 
+
+
+  /**
+   * 
+   * Runs when historicalData changes.
+
+Converts timestamps to JS Date objects and creates chart-friendly data format.
+
+Adds headers to the top of the array.
+   * 
+   * 
+   */
   useEffect(() => {
     if (historicalData?.prices) {
       const formattedData = historicalData.prices.map(item => [
@@ -14,6 +31,23 @@ const AreaChart = ({ historicalData, currencySymbol }) => {
     }
   }, [historicalData]);
   console.log(currencySymbol);
+
+
+
+
+  /**
+   * Defines styling and formatting for the chart:
+
+Transparent background, colored lines, smoothed curve.
+
+Axis labels in white.
+
+Tooltips are styled and formatted.
+
+currencySymbol is dynamically used in vertical axis formatting.
+   * 
+   */
+
 
      const options = {
         backgroundColor: 'transparent',
@@ -62,6 +96,19 @@ const AreaChart = ({ historicalData, currencySymbol }) => {
         }
     };
 
+
+
+    /**The chart is wrapped in a styled Tailwind div.
+
+Chart renders a Google AreaChart using:
+
+data: your formatted price/time data.
+
+options: all the styling/settings above.
+
+loader: a fallback while the chart is still loading.
+
+ */
   return (
     <div className='w-full bg-gray-800/20 backdrop-blur-sm rounded-xl p-4 border border-emerald-500/20'>
       <Chart chartType='AreaChart'
